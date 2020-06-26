@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BART</title>
+        <script src="jspsych-6.1.0/jspsych.js"></script>
+        <script src="jspsych-6.1.0/plugins/jspsych-fullscreen.js"></script>
+        <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
+        <script src="jspsych-6.1.0/plugins/jspsych-psychophysics.js"></script>
+        <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+        <link rel="stylesheet" href="jspsych-psychophysics-0.3/css/jspsych.css"></link>
+        
+        <style id="stil">
+            .go_to_trunk {
+                position: absolute;
+                transition: bottom 555px 2s ease-in-out; 
+                transition: right 555px 2s ease-in-out;
+            }
+        </style>
+        
+        <style>
+            .centr {
+                display: none;
+                margin-left: auto;
+                margin-right: auto;
+                width: 50%;
+                z-index: 7;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <script src="jsbart.js" charset="utf-8"></script>
+
+        <script>
+            //visual elements for warning. The text and the image.
+            var warn_text_header = document.createElement("h1");
+            warn_text_header.setAttribute("style", "display: none; position: absolute; transform: translate(-50%, -50%); top: " + (screen.height/2 - 350) + "px; left: 50%;  z-index: 7;");
+            warn_text_header.setAttribute("id", "warn_text");
+            var warn_text = document.createTextNode("Bitte mach weiter!");
+            warn_text_header.appendChild(warn_text);
+            document.body.appendChild(warn_text_header);
+            console.log(document.body);
+            var warn = document.createElement("img");
+            warn.setAttribute("src", "stimuli/warn.png");
+            warn.setAttribute("id", "warn");
+            warn.setAttribute("z-index", "5");
+            warn.setAttribute("style", "display: none; position: absolute; transform: translate(-50%, -50%); top: 50%; left: 50%; z-index: 7;");
+            warn.setAttribute("alt", "Bitte mach weiter!");
+            warn.setAttribute("width", "500px");
+            document.body.appendChild(warn);
+            var idleness_duration = 5000; //Define the duration of idleness until the warning is shown.
+            // 1000 milliseconds = 1 second
+
+            //The function for handling the warning. This function is called on finish of the third instruction.
+            var inactivityTime = function () {
+                var time;
+                window.onload = resetTimer;
+
+                // DOM Events
+                document.onmousedown = resetTimer;
+                document.onclick = resetTimer;
+
+                function warning() {
+                    document.getElementById("warn").style.display = "block";
+                    document.getElementById("warn_text").style.display = "block";
+                    console.log("Shown the warning.");
+                }
+            
+
+                function resetTimer() {
+                    clearTimeout(time);
+                    time = setTimeout(warning, idleness_duration)
+                    
+                    document.getElementById("warn").style.display = "none";
+                    document.getElementById("warn_text").style.display = "none";
+                    console.log("Hid the warning.");
+                }
+            };
+        </script>
+    </body>
+</html>
